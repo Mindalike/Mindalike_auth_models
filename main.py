@@ -1,10 +1,12 @@
+import gzip
+import joblib
 from fastapi import FastAPI
 from pydantic import BaseModel
-import joblib
 import numpy as np
 
-# Load the saved model
-model = joblib.load('creditcard_fraud_model.joblib')
+# Load the compressed model
+with gzip.open('creditcard_fraud_model.joblib.gz', 'rb') as f:
+    model = joblib.load(f)
 
 # Define the input schema
 class FraudPredictionRequest(BaseModel):
