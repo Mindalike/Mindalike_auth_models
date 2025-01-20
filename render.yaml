@@ -1,15 +1,15 @@
 services:
   - type: web
-    name: mindalike-models
+    name: mindalike-fraud-detection
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT --root-path / --log-level debug
+    startCommand: gunicorn "main:app" --bind 0.0.0.0:$PORT --log-level debug
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.1
       - key: LOG_LEVEL
         value: debug
-    healthCheckPath: /docs
+    healthCheckPath: /
     autoDeploy: true
     routes:
       - type: rewrite
