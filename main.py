@@ -3,7 +3,7 @@ import joblib
 from fastapi import FastAPI, Response, status, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, ValidationError
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Any
 import numpy as np
 import sys
 import os
@@ -312,6 +312,22 @@ def update_user_patterns(attempt):
         debug_to_file(f"Error updating user patterns: {str(e)}")
         debug_to_file(traceback.format_exc())
         raise
+
+@app.get("/", response_model=Dict[str, str])
+async def root():
+    """
+    Root endpoint providing basic API information
+    """
+    return {
+        "title": "Advanced Login Security API",
+        "version": "1.1.0",
+        "description": "API for detecting sophisticated login patterns and potential security threats",
+        "status": "operational",
+        "endpoints": [
+            "/analyze_login (POST)",
+            "/user_patterns/{user_id} (GET)"
+        ]
+    }
 
 @app.post("/analyze_login", status_code=status.HTTP_200_OK)
 async def analyze_login(attempt: LoginAttempt, response: Response):
