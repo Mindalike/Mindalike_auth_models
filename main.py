@@ -316,7 +316,7 @@ def update_user_patterns(attempt):
 import fastapi
 import sys
 
-@app.get("/", response_model=Dict[str, str])
+@app.get("/")
 async def root():
     """
     Root endpoint providing basic API information
