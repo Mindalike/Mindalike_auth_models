@@ -11,7 +11,7 @@ services:
     startCommand: gunicorn "main:app" --bind 0.0.0.0:$PORT --log-level debug
     envVars:
       - key: PYTHON_VERSION
-        value: 3.12.1
+        value: 3.10
       - key: LOG_LEVEL
         value: debug
     healthCheckPath: /
