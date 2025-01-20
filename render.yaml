@@ -3,11 +3,15 @@ services:
     name: mindalike-models
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT --log-level debug
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT --root-path / --log-level debug
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.1
       - key: LOG_LEVEL
         value: debug
-    healthCheckPath: /
+    healthCheckPath: /docs
     autoDeploy: true
+    routes:
+      - type: rewrite
+        source: /
+        destination: /
