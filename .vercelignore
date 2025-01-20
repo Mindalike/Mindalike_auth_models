@@ -9,5 +9,6 @@ node_modules
 *.ipynb
 *.md
 *.txt
+!requirements.txt
 tests/
 data/
