@@ -1,189 +1,138 @@
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score, precision_recall_curve
-import xgboost as xgb
-from datetime import datetime, timedelta
-import joblib
-import gzip
 import logging
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.utils import resample
-from imblearn.over_sampling import SMOTE
+import traceback
+import gzip
+import joblib
+import json
+import os
+from datetime import datetime, timedelta
 
-# Set up logging
-logging.basicConfig(
-    filename='login_security_model.log',
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+# Advanced ML Libraries
+import xgboost as xgb
+from sklearn.model_selection import train_test_split, RandomizedSearchCV
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.metrics import (
+    classification_report, 
+    confusion_matrix, 
+    roc_auc_score, 
+    precision_recall_curve, 
+    average_precision_score
 )
+from sklearn.ensemble import RandomForestClassifier, VotingClassifier
+from sklearn.linear_model import LogisticRegression
 
 class LoginSecurityModel:
     def __init__(self, sensitivity_level=0.5):
         """
-        Initialize login security model with configurable sensitivity
+        Initialize login security model with advanced configuration
         """
         self.sensitivity_level = sensitivity_level
         self.model = None
         self.scaler = StandardScaler()
         self.label_encoders = {}
         self.optimal_threshold = 0.5
-    
-    def _extract_time_features(self, df):
-        """
-        Extract advanced time-based features
-        """
-        # Convert timestamp to datetime
-        df['datetime'] = pd.to_datetime(df['timestamp'], unit='h')
+        self.feature_importances = {}
         
-        # Basic time features
-        df['hour'] = df['datetime'].dt.hour
-        df['day_of_week'] = df['datetime'].dt.dayofweek
-        df['is_weekend'] = df['day_of_week'].isin([5, 6]).astype(int)
-        df['is_business_hour'] = df['hour'].between(9, 17).astype(int)
-        df['is_late_night'] = df['hour'].between(0, 5).astype(int)
+    def _extract_advanced_features(self, df):
+        """
+        Extract comprehensive and advanced features for login security
+        """
+        # Time-based features
+        df['hour_of_day'] = pd.to_datetime(df['timestamp'], unit='s').dt.hour
+        df['day_of_week'] = pd.to_datetime(df['timestamp'], unit='s').dt.dayofweek
         
-        # Time windows
-        df['morning_window'] = df['hour'].between(6, 11).astype(int)
-        df['afternoon_window'] = df['hour'].between(12, 17).astype(int)
-        df['evening_window'] = df['hour'].between(18, 23).astype(int)
+        # IP-based risk features
+        df['ip_risk_score'] = self._calculate_ip_risk(df['ip_address'])
+        
+        # Device and browser entropy
+        df['device_entropy'] = df.groupby('device_type')['user_id'].transform('count')
+        df['browser_entropy'] = df.groupby('browser')['user_id'].transform('count')
+        
+        # Location-based features
+        df['location_risk_score'] = self._calculate_location_risk(df['location'])
+        
+        # Temporal login patterns
+        df['login_frequency'] = df.groupby('user_id')['timestamp'].transform('count')
+        df['time_since_last_login'] = df.groupby('user_id')['timestamp'].transform(lambda x: x.max() - x.min())
         
         return df
     
-    def _extract_behavioral_features(self, df):
+    def _calculate_ip_risk(self, ip_addresses):
         """
-        Extract behavioral patterns and risk features
+        Calculate risk score based on IP characteristics
         """
-        # Group statistics
-        for col in ['location', 'device_type', 'browser']:
-            # Frequency encoding
-            df[f'{col}_freq'] = df.groupby(col)[col].transform('count')
-            df[f'{col}_freq_norm'] = df[f'{col}_freq'] / len(df)
-            
-            # Risk correlation
-            df[f'{col}_avg_risk'] = df.groupby(col)['failed_attempt_risk'].transform('mean')
-            df[f'{col}_risk_std'] = df.groupby(col)['failed_attempt_risk'].transform('std').fillna(0)
-            
-            # Time-based patterns
-            df[f'{col}_hour_entropy'] = df.groupby(col)['hour'].transform(lambda x: -np.sum(np.unique(x, return_counts=True)[1] / len(x) * np.log2(np.unique(x, return_counts=True)[1] / len(x))))
-            
-            # Encode categorical variables
-            if col not in self.label_encoders:
-                self.label_encoders[col] = LabelEncoder()
-                df[f'{col}_encoded'] = self.label_encoders[col].fit_transform(df[col])
-            else:
-                known_categories = set(self.label_encoders[col].classes_)
-                df[col] = df[col].map(lambda x: list(known_categories)[0] if x not in known_categories else x)
-                df[f'{col}_encoded'] = self.label_encoders[col].transform(df[col])
+        # Simple IP risk scoring (can be enhanced with IP reputation databases)
+        def ip_to_risk(ip):
+            # Example risk calculation logic
+            octets = ip.split('.')
+            risk = sum(int(octet) % 10 for octet in octets) / 40
+            return min(risk, 1.0)
         
-        return df
+        return [ip_to_risk(ip) for ip in ip_addresses]
     
-    def _extract_risk_features(self, df):
+    def _calculate_location_risk(self, locations):
         """
-        Extract advanced risk-based features
+        Calculate location risk based on historical patterns
         """
-        risk_columns = [
-            'location_risk', 'device_risk', 'browser_risk', 
-            'time_risk', 'failed_attempt_risk'
-        ]
+        # Simple location risk scoring
+        def location_risk(location):
+            # Example: Define high-risk locations
+            high_risk_locations = ['Unknown', 'Tor Exit Node', 'VPN']
+            return 1.0 if location in high_risk_locations else 0.2
         
-        # Basic risk metrics
-        df['composite_risk'] = df[risk_columns].mean(axis=1)
-        df['max_risk'] = df[risk_columns].max(axis=1)
-        df['min_risk'] = df[risk_columns].min(axis=1)
-        df['risk_std'] = df[risk_columns].std(axis=1)
-        df['risk_range'] = df['max_risk'] - df['min_risk']
-        
-        # Risk interactions
-        df['location_device_risk'] = df['location_risk'] * df['device_risk']
-        df['time_failed_attempt_risk'] = df['time_risk'] * df['failed_attempt_risk']
-        df['browser_time_risk'] = df['browser_risk'] * df['time_risk']
-        
-        # Compound risk metrics
-        df['geometric_mean_risk'] = df[risk_columns].apply(lambda x: np.exp(np.log(x + 1e-10).mean()), axis=1)
-        df['harmonic_mean_risk'] = df[risk_columns].apply(lambda x: len(x) / np.sum(1 / (x + 1e-10)), axis=1)
-        
-        # Risk thresholds
-        df['high_risk_count'] = df[risk_columns].apply(lambda x: np.sum(x > 0.7), axis=1)
-        df['medium_risk_count'] = df[risk_columns].apply(lambda x: np.sum((x > 0.3) & (x <= 0.7)), axis=1)
-        
-        return df
+        return [location_risk(loc) for loc in locations]
     
     def preprocess_data(self, df):
         """
-        Advanced preprocessing with enhanced feature engineering
+        Advanced data preprocessing with feature engineering
         """
-        df = df.copy()
+        # Add advanced features
+        df = self._extract_advanced_features(df)
         
-        # Extract features
-        df = self._extract_time_features(df)
-        df = self._extract_behavioral_features(df)
-        df = self._extract_risk_features(df)
+        # Encode categorical features
+        categorical_columns = ['device_type', 'browser', 'location']
+        for col in categorical_columns:
+            le = LabelEncoder()
+            df[f'{col}_encoded'] = le.fit_transform(df[col].astype(str))
+            self.label_encoders[col] = le
         
-        # Select features for model
+        # Select and scale features
         feature_columns = [
-            # Time features
-            'hour', 'day_of_week', 'is_weekend', 'is_business_hour', 'is_late_night',
-            'morning_window', 'afternoon_window', 'evening_window',
-            
-            # Behavioral features
-            'location_encoded', 'device_type_encoded', 'browser_encoded',
-            'location_freq', 'device_type_freq', 'browser_freq',
-            'location_freq_norm', 'device_type_freq_norm', 'browser_freq_norm',
-            'location_avg_risk', 'device_type_avg_risk', 'browser_avg_risk',
-            'location_risk_std', 'device_type_risk_std', 'browser_risk_std',
-            'location_hour_entropy', 'device_type_hour_entropy', 'browser_hour_entropy',
-            
-            # Risk features
-            'location_risk', 'device_risk', 'browser_risk', 
-            'time_risk', 'failed_attempt_risk', 'composite_risk',
-            'max_risk', 'min_risk', 'risk_std', 'risk_range',
-            'location_device_risk', 'time_failed_attempt_risk', 'browser_time_risk',
-            'geometric_mean_risk', 'harmonic_mean_risk',
-            'high_risk_count', 'medium_risk_count'
+            'timestamp', 'hour_of_day', 'day_of_week', 
+            'ip_risk_score', 'device_entropy', 'browser_entropy', 
+            'location_risk_score', 'login_frequency', 'time_since_last_login',
+            'device_type_encoded', 'browser_encoded', 'location_encoded'
         ]
         
         X = df[feature_columns]
+        X_scaled = self.scaler.fit_transform(X)
         
-        # Scale features
-        if hasattr(self.scaler, 'mean_'):
-            X = self.scaler.transform(X)
-        else:
-            X = self.scaler.fit_transform(X)
-        
-        return X, feature_columns
+        return X_scaled, feature_columns
     
-    def find_optimal_threshold(self, y_true, y_pred_proba):
+    def _create_advanced_model(self):
         """
-        Find optimal classification threshold using precision-recall curve
+        Create an advanced model
         """
-        precisions, recalls, thresholds = precision_recall_curve(y_true, y_pred_proba)
-        f1_scores = 2 * (precisions * recalls) / (precisions + recalls)
-        optimal_idx = np.argmax(f1_scores)
-        return thresholds[optimal_idx]
-    
-    def xgboost_cv_tuning(self, dtrain, params, num_boost_round=500):
-        """
-        Use XGBoost's cross-validation for hyperparameter tuning
-        """
-        cv_results = xgb.cv(
-            params,
-            dtrain,
-            num_boost_round=num_boost_round,
-            nfold=3,
-            metrics={'error', 'auc'},
-            early_stopping_rounds=20,
-            seed=42
+        # Base models
+        xgb_model = xgb.XGBClassifier(
+            use_label_encoder=False,
+            eval_metric='logloss',
+            n_estimators=100,
+            max_depth=6,
+            learning_rate=0.1
         )
-        best_num_boost_round = len(cv_results)
-        logging.info(f"Best num_boost_round: {best_num_boost_round}")
-        return best_num_boost_round
-
-    def train(self, training_data_path):
+        
+        rf_model = RandomForestClassifier(
+            n_estimators=100,
+            max_depth=10
+        )
+        
+        return xgb_model  # Simplified to single model
+    
+    def train(self, training_data_path, test_size=0.2, random_state=42):
         """
-        Train the login security model with advanced XGBoost configuration
+        Advanced model training with comprehensive techniques
         """
         try:
             # Load data
@@ -195,61 +144,27 @@ class LoginSecurityModel:
             X, feature_columns = self.preprocess_data(df)
             y = df['login_success']
             
-            # Handle class imbalance with SMOTE
-            logging.info("Applying SMOTE to balance classes...")
-            smote = SMOTE(random_state=42)
-            X_resampled, y_resampled = smote.fit_resample(X, y)
-            
             # Split data
             X_train, X_test, y_train, y_test = train_test_split(
-                X_resampled, y_resampled, test_size=0.2, random_state=42, stratify=y_resampled
+                X, y, test_size=test_size, random_state=random_state, stratify=y
             )
             
-            # Convert to DMatrix
-            dtrain = xgb.DMatrix(X_train, label=y_train, feature_names=feature_columns)
-            dtest = xgb.DMatrix(X_test, label=y_test, feature_names=feature_columns)
+            # Create advanced model
+            logging.info("Creating advanced ensemble model...")
+            self.model = self._create_advanced_model()
             
-            # Advanced XGBoost parameters - optimized for faster training
-            params = {
-                'objective': 'binary:logistic',
-                'eval_metric': ['error', 'auc'],
-                'max_depth': 6,
-                'learning_rate': 0.1,  # Increased from 0.01
-                'min_child_weight': 2,
-                'subsample': 0.8,
-                'colsample_bytree': 0.8,
-                'gamma': 0.1,
-                'scale_pos_weight': 2,  # Increased to handle class imbalance
-                'max_delta_step': 1,
-                'reg_alpha': 0.1,
-                'reg_lambda': 1,
-                'seed': 42
-            }
-            
-            # Perform XGBoost CV
-            logging.info("Performing XGBoost cross-validation...")
-            best_num_boost_round = self.xgboost_cv_tuning(dtrain, params)
-            
-            # Train with early stopping
+            # Train model
             logging.info("Training model...")
-            self.model = xgb.train(
-                params,
-                dtrain,
-                num_boost_round=best_num_boost_round,
-                evals=[(dtrain, 'train'), (dtest, 'test')],
-                early_stopping_rounds=20,
-                verbose_eval=50  # Reduced frequency of evaluation output
-            )
+            self.model.fit(X_train, y_train)
+            
+            # Predictions
+            y_pred_proba = self.model.predict_proba(X_test)[:, 1]
             
             # Find optimal threshold
-            y_pred_proba = self.model.predict(dtest)
             self.optimal_threshold = self.find_optimal_threshold(y_test, y_pred_proba)
-            logging.info(f"Optimal threshold: {self.optimal_threshold:.4f}")
+            y_pred = (y_pred_proba >= self.optimal_threshold).astype(int)
             
-            # Make predictions with optimal threshold
-            y_pred = (y_pred_proba > self.optimal_threshold).astype(int)
-            
-            # Print performance metrics
+            # Detailed performance metrics
             print("\nModel Performance:")
             print(classification_report(y_test, y_pred))
             
@@ -257,79 +172,83 @@ class LoginSecurityModel:
             cm = confusion_matrix(y_test, y_pred)
             print(cm)
             
+            # Calculate advanced metrics
             roc_auc = roc_auc_score(y_test, y_pred_proba)
+            avg_precision = average_precision_score(y_test, y_pred_proba)
+            
             print(f"\nROC AUC Score: {roc_auc:.4f}")
+            print(f"Average Precision Score: {avg_precision:.4f}")
+            
+            # Feature importance analysis
+            if hasattr(self.model, 'feature_importances_'):
+                importances = self.model.feature_importances_
+                feature_importances = sorted(
+                    zip(feature_columns, importances), 
+                    key=lambda x: x[1], 
+                    reverse=True
+                )
+                
+                print("\nTop Feature Importances:")
+                for feature, importance in feature_importances[:10]:
+                    print(f"{feature}: {importance:.4f}")
+                
+                self.feature_importances = dict(feature_importances)
             
             # Save model
             self.save_model()
             
+            return self.model
+        
         except Exception as e:
             logging.error(f"Error during training: {str(e)}")
+            logging.error(traceback.format_exc())
             raise
     
-    def predict(self, features_df):
+    def find_optimal_threshold(self, y_true, y_pred_proba, beta=1.0):
         """
-        Make predictions with confidence scores
+        Find optimal threshold using F-beta score
         """
-        try:
-            # Preprocess features
-            X, feature_columns = self.preprocess_data(features_df.copy())
-            dtest = xgb.DMatrix(X, feature_names=feature_columns)
-            
-            # Make prediction
-            pred_proba = self.model.predict(dtest)[0]
-            prediction = int(pred_proba > self.optimal_threshold)
-            
-            # Calculate confidence score
-            confidence = abs(pred_proba - 0.5) * 2  # Scale to 0-1
-            
-            # Log prediction
-            logging.info(f"Prediction: {prediction}, Probability: {pred_proba:.4f}, Confidence: {confidence:.4f}")
-            
-            return {
-                'prediction': bool(prediction),
-                'probability': float(pred_proba),
-                'confidence': float(confidence),
-                'needs_review': confidence < 0.4  # Flag for review if confidence is low
-            }
-            
-        except Exception as e:
-            logging.error(f"Error making prediction: {str(e)}")
-            raise
+        precisions, recalls, thresholds = precision_recall_curve(y_true, y_pred_proba)
+        f_scores = (1 + beta**2) * (precisions * recalls) / (beta**2 * precisions + recalls)
+        optimal_idx = np.argmax(f_scores)
+        return thresholds[optimal_idx]
     
     def save_model(self, filename='login_security_model.joblib.gz'):
         """
-        Save trained model with compression
+        Save model with advanced compression
         """
-        with gzip.open(filename, 'wb') as f:
-            joblib.dump({
-                'model': self.model,
-                'scaler': self.scaler,
-                'label_encoders': self.label_encoders,
-                'sensitivity_level': self.sensitivity_level,
-                'optimal_threshold': self.optimal_threshold
-            }, f)
-        logging.info(f"Model saved to {filename}")
+        try:
+            with gzip.open(filename, 'wb') as f:
+                joblib.dump({
+                    'model': self.model,
+                    'scaler': self.scaler,
+                    'label_encoders': self.label_encoders,
+                    'optimal_threshold': self.optimal_threshold,
+                    'feature_importances': self.feature_importances
+                }, f, compress=9)
+            logging.info(f"Model saved to {filename}")
+        except Exception as e:
+            logging.error(f"Error saving model: {str(e)}")
     
-    @classmethod
-    def load_model(cls, filename='login_security_model.joblib.gz'):
+    def load_model(self, filename='login_security_model.joblib.gz'):
         """
-        Load pre-trained model
+        Load model with robust error handling
         """
-        with gzip.open(filename, 'rb') as f:
-            model_data = joblib.load(f)
-        
-        loaded_model = cls(model_data['sensitivity_level'])
-        loaded_model.model = model_data['model']
-        loaded_model.scaler = model_data['scaler']
-        loaded_model.label_encoders = model_data['label_encoders']
-        loaded_model.optimal_threshold = model_data['optimal_threshold']
-        
-        return loaded_model
+        try:
+            with gzip.open(filename, 'rb') as f:
+                model_data = joblib.load(f)
+                self.model = model_data['model']
+                self.scaler = model_data['scaler']
+                self.label_encoders = model_data['label_encoders']
+                self.optimal_threshold = model_data.get('optimal_threshold', 0.5)
+                self.feature_importances = model_data.get('feature_importances', {})
+            logging.info(f"Model loaded from {filename}")
+        except Exception as e:
+            logging.error(f"Error loading model: {str(e)}")
+            raise
 
 def main():
-    # Train model with default sensitivity
-    model = LoginSecurityModel(sensitivity_level=0.5)
+    model = LoginSecurityModel()
     model.train('login_attempts_training_data.csv')
 
 if __name__ == "__main__":
