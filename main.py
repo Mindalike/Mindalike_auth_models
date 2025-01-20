@@ -84,9 +84,23 @@ app.add_middleware(
 print("Starting model initialization...")
 model = None
 try:
+    import warnings
+    warnings.filterwarnings("ignore", category=UserWarning)
+    
     with gzip.open('creditcard_fraud_model.joblib.gz', 'rb') as f:
+        import joblib
         model = joblib.load(f)
         print(f" Model loaded successfully: {type(model)}")
+        
+        # Attempt to verify model compatibility
+        try:
+            # Try a simple prediction to ensure model works
+            test_features = np.zeros((1, 30))  # Assuming 30 features
+            model.predict(test_features)
+            print(" Model prediction test passed.")
+        except Exception as pred_error:
+            print(f" Model prediction test failed: {pred_error}")
+            raise
 except Exception as e:
     print(f" CRITICAL MODEL LOAD ERROR: {e}")
     print(traceback.format_exc())
