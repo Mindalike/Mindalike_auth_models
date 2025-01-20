@@ -6,13 +6,14 @@ from pydantic import BaseModel, Field, ValidationError
 from typing import Optional, List
 import numpy as np
 import logging
+import traceback
 from datetime import datetime
 import json
 from pathlib import Path
 
 # Configure more detailed logging
 logging.basicConfig(
-    level=logging.INFO, 
+    level=logging.DEBUG, 
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
@@ -41,6 +42,7 @@ try:
         logger.info("Model loaded successfully")
 except Exception as e:
     logger.error(f"Critical error loading model: {str(e)}")
+    logger.error(traceback.format_exc())
 
 # Initialize user patterns storage
 PATTERNS_FILE = "user_patterns.json"
@@ -91,9 +93,11 @@ def extract_features(attempt: LoginAttempt, patterns: dict) -> List[float]:
             float(user_patterns.get("total_attempts", 0)),  # Total login attempts
         ] + [0.0] * 25  # Padding to match model's expected 30 features
         
+        logger.debug(f"Extracted features: {features}")
         return features
     except Exception as e:
         logger.error(f"Error extracting features: {str(e)}")
+        logger.error(traceback.format_exc())
         raise
 
 def update_user_patterns(attempt: LoginAttempt):
@@ -125,6 +129,7 @@ def update_user_patterns(attempt: LoginAttempt):
         safe_save_json(patterns, PATTERNS_FILE)
     except Exception as e:
         logger.error(f"Error updating user patterns: {str(e)}")
+        logger.error(traceback.format_exc())
         raise
 
 @app.post("/analyze_login", status_code=status.HTTP_200_OK)
@@ -137,18 +142,32 @@ async def analyze_login(attempt: LoginAttempt, response: Response):
         logger.info(f"Analyzing login attempt for user {attempt.user_id}")
         
         if model is None:
+            logger.error("Security model is not available")
             raise HTTPException(status_code=503, detail="Security model not available")
         
         # Load existing patterns
         patterns = safe_load_json(PATTERNS_FILE)
+        logger.debug(f"Loaded patterns: {patterns}")
         
         # Extract features
         features = extract_features(attempt, patterns)
         
+        # Validate features
+        if len(features) != 30:
+            logger.error(f"Invalid feature length. Expected 30, got {len(features)}")
+            raise ValueError(f"Invalid feature length. Expected 30, got {len(features)}")
+        
         # Get model prediction
-        prediction = model.predict(np.array(features).reshape(1, -1))
-        prediction_proba = getattr(model, 'predict_proba', lambda x: [[0.5, 0.5]])(np.array(features).reshape(1, -1))
+        try:
+            prediction = model.predict(np.array(features).reshape(1, -1))
+            prediction_proba = getattr(model, 'predict_proba', lambda x: [[0.5, 0.5]])(np.array(features).reshape(1, -1))
+        except Exception as pred_error:
+            logger.error(f"Prediction error: {str(pred_error)}")
+            logger.error(traceback.format_exc())
+            raise
+        
         risk_score = float(prediction_proba[0][1])  # Probability of suspicious activity
+        logger.info(f"Risk score: {risk_score}")
         
         # Update patterns with this attempt
         update_user_patterns(attempt)
@@ -175,9 +194,11 @@ async def analyze_login(attempt: LoginAttempt, response: Response):
         }
     except ValidationError as ve:
         logger.error(f"Validation error: {str(ve)}")
+        logger.error(traceback.format_exc())
         raise HTTPException(status_code=422, detail=str(ve))
     except Exception as e:
         logger.error(f"Unexpected error in login analysis: {str(e)}")
+        logger.error(traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 @app.get("/user_patterns/{user_id}", status_code=status.HTTP_200_OK)
