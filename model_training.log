@@ -1,0 +1,762 @@
+2025-01-20 22:32:30,915 - INFO: Loading training data...
+2025-01-20 22:32:31,015 - INFO: Preprocessing data...
+2025-01-20 22:32:31,019 - WARNING: Missing columns: set() {'location_device_interaction', 'browser_time_interaction'}
+2025-01-20 22:32:31,472 - INFO: Available features: ['timestamp', 'hour_of_day', 'day_of_week', 'month', 'is_weekend', 'is_business_hours', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'login_pattern_risk', 'login_frequency_zscore', 'device_type_encoded', 'browser_encoded', 'location_encoded', 'location_device_interaction_encoded', 'browser_time_interaction_encoded', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score']
+2025-01-20 22:32:31,616 - INFO: Training model...
+2025-01-20 22:32:31,624 - ERROR: Error during training: Input X contains NaN.
+BorderlineSMOTE does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
+2025-01-20 22:32:31,631 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 228, in train
+    imbalance_pipeline.fit(X_train, y_train)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 518, in fit
+    Xt, yt = self._fit(X, y, routed_params, raw_params=params)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 440, in _fit
+    X, y, fitted_transformer = fit_resample_one_cached(
+                               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\joblib\memory.py", line 312, in __call__
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 1336, in _fit_resample_one
+    X_res, y_res = sampler.fit_resample(X, y, **params.get("fit_resample", {}))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\base.py", line 202, in fit_resample
+    return super().fit_resample(X, y, **params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\base.py", line 99, in fit_resample
+    X, y, binarize_y = self._check_X_y(X, y)
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\base.py", line 157, in _check_X_y
+    X, y = validate_data(self, X=X, y=y, reset=True, accept_sparse=accept_sparse)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 2961, in validate_data
+    X, y = check_X_y(X, y, **check_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1370, in check_X_y
+    X = check_array(
+        ^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1107, in check_array
+    _assert_all_finite(
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 120, in _assert_all_finite
+    _assert_all_finite_element_wise(
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 169, in _assert_all_finite_element_wise
+    raise ValueError(msg_err)
+ValueError: Input X contains NaN.
+BorderlineSMOTE does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
+
+2025-01-20 22:33:05,304 - INFO: Loading training data...
+2025-01-20 22:33:05,416 - INFO: Preprocessing data...
+2025-01-20 22:33:05,420 - WARNING: Missing columns: set() {'location_device_interaction', 'browser_time_interaction'}
+2025-01-20 22:33:05,785 - INFO: Available features: ['timestamp', 'hour_of_day', 'day_of_week', 'month', 'is_weekend', 'is_business_hours', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'login_pattern_risk', 'login_frequency_zscore', 'device_type_encoded', 'browser_encoded', 'location_encoded', 'location_device_interaction_encoded', 'browser_time_interaction_encoded', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score']
+2025-01-20 22:33:05,927 - INFO: Training model...
+2025-01-20 22:33:05,935 - ERROR: Error during training: Input X contains NaN.
+BorderlineSMOTE does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
+2025-01-20 22:33:05,945 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 228, in train
+    imbalance_pipeline.fit(X_train, y_train)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 518, in fit
+    Xt, yt = self._fit(X, y, routed_params, raw_params=params)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 440, in _fit
+    X, y, fitted_transformer = fit_resample_one_cached(
+                               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\joblib\memory.py", line 312, in __call__
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 1336, in _fit_resample_one
+    X_res, y_res = sampler.fit_resample(X, y, **params.get("fit_resample", {}))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\base.py", line 202, in fit_resample
+    return super().fit_resample(X, y, **params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\base.py", line 99, in fit_resample
+    X, y, binarize_y = self._check_X_y(X, y)
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\base.py", line 157, in _check_X_y
+    X, y = validate_data(self, X=X, y=y, reset=True, accept_sparse=accept_sparse)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 2961, in validate_data
+    X, y = check_X_y(X, y, **check_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1370, in check_X_y
+    X = check_array(
+        ^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1107, in check_array
+    _assert_all_finite(
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 120, in _assert_all_finite
+    _assert_all_finite_element_wise(
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 169, in _assert_all_finite_element_wise
+    raise ValueError(msg_err)
+ValueError: Input X contains NaN.
+BorderlineSMOTE does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
+
+2025-01-20 22:33:42,968 - INFO: Loading training data...
+2025-01-20 22:33:43,075 - INFO: Preprocessing data...
+2025-01-20 22:33:43,692 - INFO: Selected features: ['timestamp', 'hour_of_day', 'day_of_week', 'month', 'is_weekend', 'is_business_hours', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'login_pattern_risk', 'login_frequency_zscore', 'user_id_encoded', 'ip_address_encoded', 'location_encoded', 'device_type_encoded', 'browser_encoded', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score']
+2025-01-20 22:33:43,851 - INFO: Training model...
+2025-01-20 22:33:43,859 - ERROR: Error during training: Input X contains NaN.
+BorderlineSMOTE does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
+2025-01-20 22:33:43,867 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 231, in train
+    imbalance_pipeline.fit(X_train, y_train)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 518, in fit
+    Xt, yt = self._fit(X, y, routed_params, raw_params=params)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 440, in _fit
+    X, y, fitted_transformer = fit_resample_one_cached(
+                               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\joblib\memory.py", line 312, in __call__
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 1336, in _fit_resample_one
+    X_res, y_res = sampler.fit_resample(X, y, **params.get("fit_resample", {}))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\base.py", line 202, in fit_resample
+    return super().fit_resample(X, y, **params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\base.py", line 99, in fit_resample
+    X, y, binarize_y = self._check_X_y(X, y)
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\base.py", line 157, in _check_X_y
+    X, y = validate_data(self, X=X, y=y, reset=True, accept_sparse=accept_sparse)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 2961, in validate_data
+    X, y = check_X_y(X, y, **check_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1370, in check_X_y
+    X = check_array(
+        ^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1107, in check_array
+    _assert_all_finite(
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 120, in _assert_all_finite
+    _assert_all_finite_element_wise(
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 169, in _assert_all_finite_element_wise
+    raise ValueError(msg_err)
+ValueError: Input X contains NaN.
+BorderlineSMOTE does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
+
+2025-01-20 22:34:58,517 - INFO: Loading training data...
+2025-01-20 22:34:58,756 - INFO: Preprocessing data...
+2025-01-20 22:35:07,181 - INFO: Selected features: ['timestamp', 'hour_of_day', 'day_of_week', 'month', 'is_weekend', 'is_business_hours', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'login_pattern_risk', 'login_frequency_zscore', 'user_id_encoded', 'device_type_encoded', 'browser_encoded', 'location_encoded', 'ip_address_encoded', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score']
+2025-01-20 22:35:07,313 - INFO: Training model...
+2025-01-20 22:35:07,315 - ERROR: Error during training: Input X contains NaN.
+BorderlineSMOTE does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
+2025-01-20 22:35:07,331 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 231, in train
+    imbalance_pipeline.fit(X_train, y_train)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 518, in fit
+    Xt, yt = self._fit(X, y, routed_params, raw_params=params)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 440, in _fit
+    X, y, fitted_transformer = fit_resample_one_cached(
+                               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\joblib\memory.py", line 312, in __call__
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 1336, in _fit_resample_one
+    X_res, y_res = sampler.fit_resample(X, y, **params.get("fit_resample", {}))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\base.py", line 202, in fit_resample
+    return super().fit_resample(X, y, **params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\base.py", line 99, in fit_resample
+    X, y, binarize_y = self._check_X_y(X, y)
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\base.py", line 157, in _check_X_y
+    X, y = validate_data(self, X=X, y=y, reset=True, accept_sparse=accept_sparse)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 2961, in validate_data
+    X, y = check_X_y(X, y, **check_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1370, in check_X_y
+    X = check_array(
+        ^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1107, in check_array
+    _assert_all_finite(
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 120, in _assert_all_finite
+    _assert_all_finite_element_wise(
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 169, in _assert_all_finite_element_wise
+    raise ValueError(msg_err)
+ValueError: Input X contains NaN.
+BorderlineSMOTE does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
+
+2025-01-20 22:36:23,231 - INFO: Loading training data...
+2025-01-20 22:36:23,411 - INFO: Preprocessing data...
+2025-01-20 22:36:23,414 - INFO: Numeric columns: ['timestamp', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score', 'login_success']
+2025-01-20 22:36:23,414 - INFO: Categorical columns: ['user_id', 'device_type', 'browser', 'location', 'ip_address']
+2025-01-20 22:36:31,741 - INFO: Selected features: ['timestamp', 'hour_of_day', 'day_of_week', 'month', 'is_weekend', 'is_business_hours', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'login_pattern_risk', 'login_frequency_zscore', 'user_id_encoded', 'device_type_encoded', 'browser_encoded', 'location_encoded', 'ip_address_encoded', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score']
+2025-01-20 22:36:31,944 - INFO: Training model...
+2025-01-20 22:36:31,956 - ERROR: Error during training: The target 'y' needs to have more than 1 class. Got 1 class instead
+2025-01-20 22:36:31,962 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 244, in train
+    imbalance_pipeline.fit(X_train, y_train)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 518, in fit
+    Xt, yt = self._fit(X, y, routed_params, raw_params=params)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 440, in _fit
+    X, y, fitted_transformer = fit_resample_one_cached(
+                               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\joblib\memory.py", line 312, in __call__
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 1336, in _fit_resample_one
+    X_res, y_res = sampler.fit_resample(X, y, **params.get("fit_resample", {}))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\base.py", line 202, in fit_resample
+    return super().fit_resample(X, y, **params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\base.py", line 101, in fit_resample
+    self.sampling_strategy_ = check_sampling_strategy(
+                              ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\utils\_validation.py", line 537, in check_sampling_strategy
+    raise ValueError(
+ValueError: The target 'y' needs to have more than 1 class. Got 1 class instead
+
+2025-01-20 22:36:58,365 - INFO: Loading training data...
+2025-01-20 22:36:58,542 - INFO: Preprocessing data...
+2025-01-20 22:36:58,556 - INFO: Numeric columns: ['timestamp', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score', 'login_success']
+2025-01-20 22:36:58,556 - INFO: Categorical columns: ['user_id', 'device_type', 'browser', 'location', 'ip_address']
+2025-01-20 22:37:07,165 - INFO: Selected features: ['timestamp', 'hour_of_day', 'day_of_week', 'month', 'is_weekend', 'is_business_hours', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'login_pattern_risk', 'login_frequency_zscore', 'user_id_encoded', 'device_type_encoded', 'browser_encoded', 'location_encoded', 'ip_address_encoded', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score']
+2025-01-20 22:37:07,343 - ERROR: Error during training: name 'y_train' is not defined
+2025-01-20 22:37:07,356 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 257, in train
+    imbalance_pipeline = self._create_imbalance_pipeline()
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 231, in _create_imbalance_pipeline
+    scale_pos_weight=np.sum(y_train == 0) / np.sum(y_train == 1)
+                            ^^^^^^^
+NameError: name 'y_train' is not defined
+
+2025-01-20 22:37:39,496 - INFO: Loading training data...
+2025-01-20 22:37:39,692 - INFO: Preprocessing data...
+2025-01-20 22:37:39,706 - INFO: Numeric columns: ['timestamp', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score', 'login_success']
+2025-01-20 22:37:39,706 - INFO: Categorical columns: ['user_id', 'device_type', 'browser', 'location', 'ip_address']
+2025-01-20 22:37:48,440 - INFO: Selected features: ['timestamp', 'hour_of_day', 'day_of_week', 'month', 'is_weekend', 'is_business_hours', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'login_pattern_risk', 'login_frequency_zscore', 'user_id_encoded', 'device_type_encoded', 'browser_encoded', 'location_encoded', 'ip_address_encoded', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score']
+2025-01-20 22:37:48,631 - INFO: Training model...
+2025-01-20 22:37:48,638 - ERROR: Error during training: The target 'y' needs to have more than 1 class. Got 1 class instead
+2025-01-20 22:37:48,647 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 269, in train
+    imbalance_pipeline.fit(X_train, y_train)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 518, in fit
+    Xt, yt = self._fit(X, y, routed_params, raw_params=params)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 440, in _fit
+    X, y, fitted_transformer = fit_resample_one_cached(
+                               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\joblib\memory.py", line 312, in __call__
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 1336, in _fit_resample_one
+    X_res, y_res = sampler.fit_resample(X, y, **params.get("fit_resample", {}))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\base.py", line 202, in fit_resample
+    return super().fit_resample(X, y, **params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\base.py", line 101, in fit_resample
+    self.sampling_strategy_ = check_sampling_strategy(
+                              ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\utils\_validation.py", line 537, in check_sampling_strategy
+    raise ValueError(
+ValueError: The target 'y' needs to have more than 1 class. Got 1 class instead
+
+2025-01-20 22:38:22,396 - INFO: Loading training data...
+2025-01-20 22:38:22,581 - INFO: Preprocessing data...
+2025-01-20 22:38:22,592 - INFO: Numeric columns: ['timestamp', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score', 'login_success']
+2025-01-20 22:38:22,592 - INFO: Categorical columns: ['user_id', 'device_type', 'browser', 'location', 'ip_address']
+2025-01-20 22:38:31,571 - INFO: Selected features: ['timestamp', 'hour_of_day', 'day_of_week', 'month', 'is_weekend', 'is_business_hours', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'login_pattern_risk', 'login_frequency_zscore', 'user_id_encoded', 'device_type_encoded', 'browser_encoded', 'location_encoded', 'ip_address_encoded', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score']
+2025-01-20 22:38:31,756 - ERROR: Error during training: index 1 is out of bounds for axis 0 with size 1
+2025-01-20 22:38:31,762 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 275, in train
+    imbalance_pipeline = self._create_imbalance_pipeline(y_train)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 220, in _create_imbalance_pipeline
+    minority_class: int(class_counts[1-minority_class] * 1.5)  # Oversample minority class
+                        ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+IndexError: index 1 is out of bounds for axis 0 with size 1
+
+2025-01-20 22:39:03,423 - INFO: Loading training data...
+2025-01-20 22:39:03,613 - INFO: Preprocessing data...
+2025-01-20 22:39:03,624 - INFO: Numeric columns: ['timestamp', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score', 'login_success']
+2025-01-20 22:39:03,625 - INFO: Categorical columns: ['user_id', 'device_type', 'browser', 'location', 'ip_address']
+2025-01-20 22:39:12,131 - INFO: Selected features: ['timestamp', 'hour_of_day', 'day_of_week', 'month', 'is_weekend', 'is_business_hours', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'login_pattern_risk', 'login_frequency_zscore', 'user_id_encoded', 'device_type_encoded', 'browser_encoded', 'location_encoded', 'ip_address_encoded', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score']
+2025-01-20 22:39:12,315 - WARNING: Training data contains only one class. Using standard classifier.
+2025-01-20 22:39:12,315 - INFO: Training model...
+2025-01-20 22:39:13,406 - INFO: Model saved to login_security_model.joblib.gz
+2025-01-20 22:40:18,919 - INFO: Loading training data...
+2025-01-20 22:40:19,138 - INFO: Preprocessing data...
+2025-01-20 22:40:19,151 - INFO: Numeric columns: ['timestamp', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score', 'login_success']
+2025-01-20 22:40:19,151 - INFO: Categorical columns: ['user_id', 'device_type', 'browser', 'location', 'ip_address']
+2025-01-20 22:40:27,556 - INFO: Selected features: ['timestamp', 'hour_of_day', 'day_of_week', 'month', 'is_weekend', 'is_business_hours', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'login_pattern_risk', 'login_frequency_zscore', 'user_id_encoded', 'device_type_encoded', 'browser_encoded', 'location_encoded', 'ip_address_encoded', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score']
+2025-01-20 22:40:27,738 - INFO: Training model...
+2025-01-20 22:40:31,071 - INFO: Model saved to login_security_model.joblib.gz
+2025-01-20 22:42:26,080 - INFO: Loading training data...
+2025-01-20 22:42:26,317 - INFO: Preprocessing data...
+2025-01-20 22:42:26,330 - INFO: Numeric columns: ['timestamp', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score', 'login_success']
+2025-01-20 22:42:26,330 - INFO: Categorical columns: ['user_id', 'device_type', 'browser', 'location', 'ip_address']
+2025-01-20 22:42:34,959 - INFO: Selected features: ['timestamp', 'hour_of_day', 'day_of_week', 'month', 'is_weekend', 'is_business_hours', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'login_pattern_risk', 'login_frequency_zscore', 'user_id_encoded', 'device_type_encoded', 'browser_encoded', 'location_encoded', 'ip_address_encoded', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score']
+2025-01-20 22:42:35,152 - INFO: Training model...
+2025-01-20 22:42:37,314 - ERROR: Training error: 'super' object has no attribute '__sklearn_tags__'
+2025-01-20 22:42:37,396 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 304, in train
+    y_pred = imbalance_pipeline.predict(X_test)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 653, in predict
+    with _raise_or_warn_if_not_fitted(self):
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 63, in _raise_or_warn_if_not_fitted
+    check_is_fitted(estimator)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1756, in check_is_fitted
+    if not _is_fitted(estimator, attributes, all_or_any):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1665, in _is_fitted
+    return estimator.__sklearn_is_fitted__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 1297, in __sklearn_is_fitted__
+    check_is_fitted(last_step)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1751, in check_is_fitted
+    tags = get_tags(estimator)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\_tags.py", line 405, in get_tags
+    sklearn_tags_provider[klass] = klass.__sklearn_tags__(estimator)  # type: ignore[attr-defined]
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 540, in __sklearn_tags__
+    tags = super().__sklearn_tags__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'super' object has no attribute '__sklearn_tags__'
+
+2025-01-20 22:43:04,067 - INFO: Loading training data...
+2025-01-20 22:43:04,258 - INFO: Preprocessing data...
+2025-01-20 22:43:04,272 - INFO: Numeric columns: ['timestamp', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score', 'login_success']
+2025-01-20 22:43:04,272 - INFO: Categorical columns: ['user_id', 'device_type', 'browser', 'location', 'ip_address']
+2025-01-20 22:43:12,662 - INFO: Selected features: ['timestamp', 'hour_of_day', 'day_of_week', 'month', 'is_weekend', 'is_business_hours', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'login_pattern_risk', 'login_frequency_zscore', 'user_id_encoded', 'device_type_encoded', 'browser_encoded', 'location_encoded', 'ip_address_encoded', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score']
+2025-01-20 22:43:12,856 - INFO: Training model...
+2025-01-20 22:43:15,049 - ERROR: Training error: 'super' object has no attribute '__sklearn_tags__'
+2025-01-20 22:43:15,056 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 304, in train
+    y_pred = imbalance_pipeline.predict(X_test)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 653, in predict
+    with _raise_or_warn_if_not_fitted(self):
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 63, in _raise_or_warn_if_not_fitted
+    check_is_fitted(estimator)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1756, in check_is_fitted
+    if not _is_fitted(estimator, attributes, all_or_any):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1665, in _is_fitted
+    return estimator.__sklearn_is_fitted__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 1297, in __sklearn_is_fitted__
+    check_is_fitted(last_step)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1751, in check_is_fitted
+    tags = get_tags(estimator)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\_tags.py", line 405, in get_tags
+    sklearn_tags_provider[klass] = klass.__sklearn_tags__(estimator)  # type: ignore[attr-defined]
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 540, in __sklearn_tags__
+    tags = super().__sklearn_tags__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'super' object has no attribute '__sklearn_tags__'
+
+2025-01-20 22:43:15,056 - ERROR: Error in main training process: 'super' object has no attribute '__sklearn_tags__'
+2025-01-20 22:43:15,059 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 419, in main
+    performance_metrics = model.train('login_attempts_training_data.csv')
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 304, in train
+    y_pred = imbalance_pipeline.predict(X_test)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 653, in predict
+    with _raise_or_warn_if_not_fitted(self):
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 63, in _raise_or_warn_if_not_fitted
+    check_is_fitted(estimator)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1756, in check_is_fitted
+    if not _is_fitted(estimator, attributes, all_or_any):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1665, in _is_fitted
+    return estimator.__sklearn_is_fitted__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 1297, in __sklearn_is_fitted__
+    check_is_fitted(last_step)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1751, in check_is_fitted
+    tags = get_tags(estimator)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\_tags.py", line 405, in get_tags
+    sklearn_tags_provider[klass] = klass.__sklearn_tags__(estimator)  # type: ignore[attr-defined]
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 540, in __sklearn_tags__
+    tags = super().__sklearn_tags__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'super' object has no attribute '__sklearn_tags__'
+
+2025-01-20 22:43:43,692 - INFO: Loading training data...
+2025-01-20 22:43:43,906 - INFO: Preprocessing data...
+2025-01-20 22:43:43,922 - INFO: Numeric columns: ['timestamp', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score', 'login_success']
+2025-01-20 22:43:43,923 - INFO: Categorical columns: ['user_id', 'device_type', 'browser', 'location', 'ip_address']
+2025-01-20 22:43:52,831 - INFO: Selected features: ['timestamp', 'hour_of_day', 'day_of_week', 'month', 'is_weekend', 'is_business_hours', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'login_pattern_risk', 'login_frequency_zscore', 'user_id_encoded', 'device_type_encoded', 'browser_encoded', 'location_encoded', 'ip_address_encoded', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score']
+2025-01-20 22:43:53,043 - INFO: Training model...
+2025-01-20 22:43:55,560 - ERROR: Training error: 'super' object has no attribute '__sklearn_tags__'
+2025-01-20 22:43:55,566 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 304, in train
+    y_pred = imbalance_pipeline.predict(X_test)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 653, in predict
+    with _raise_or_warn_if_not_fitted(self):
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 63, in _raise_or_warn_if_not_fitted
+    check_is_fitted(estimator)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1756, in check_is_fitted
+    if not _is_fitted(estimator, attributes, all_or_any):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1665, in _is_fitted
+    return estimator.__sklearn_is_fitted__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 1297, in __sklearn_is_fitted__
+    check_is_fitted(last_step)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1751, in check_is_fitted
+    tags = get_tags(estimator)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\_tags.py", line 405, in get_tags
+    sklearn_tags_provider[klass] = klass.__sklearn_tags__(estimator)  # type: ignore[attr-defined]
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 540, in __sklearn_tags__
+    tags = super().__sklearn_tags__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'super' object has no attribute '__sklearn_tags__'
+
+2025-01-20 22:43:55,566 - ERROR: Error in main training process: 'super' object has no attribute '__sklearn_tags__'
+2025-01-20 22:43:55,570 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 419, in main
+    performance_metrics = model.train('login_attempts_training_data.csv')
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 304, in train
+    y_pred = imbalance_pipeline.predict(X_test)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 653, in predict
+    with _raise_or_warn_if_not_fitted(self):
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 63, in _raise_or_warn_if_not_fitted
+    check_is_fitted(estimator)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1756, in check_is_fitted
+    if not _is_fitted(estimator, attributes, all_or_any):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1665, in _is_fitted
+    return estimator.__sklearn_is_fitted__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 1297, in __sklearn_is_fitted__
+    check_is_fitted(last_step)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1751, in check_is_fitted
+    tags = get_tags(estimator)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\_tags.py", line 405, in get_tags
+    sklearn_tags_provider[klass] = klass.__sklearn_tags__(estimator)  # type: ignore[attr-defined]
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 540, in __sklearn_tags__
+    tags = super().__sklearn_tags__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'super' object has no attribute '__sklearn_tags__'
+
+2025-01-20 22:45:06,927 - INFO: Loading training data...
+2025-01-20 22:45:07,117 - INFO: Preprocessing data...
+2025-01-20 22:45:07,127 - INFO: Numeric columns: ['timestamp', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score', 'login_success']
+2025-01-20 22:45:07,129 - INFO: Categorical columns: ['user_id', 'device_type', 'browser', 'location', 'ip_address']
+2025-01-20 22:45:07,478 - INFO: Selected features: ['timestamp', 'hour_of_day', 'day_of_week', 'month', 'is_weekend', 'is_business_hours', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'login_pattern_risk', 'login_frequency_zscore', 'user_id_encoded', 'device_type_encoded', 'browser_encoded', 'location_encoded', 'ip_address_encoded', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score']
+2025-01-20 22:45:07,770 - INFO: Training model...
+2025-01-20 22:45:10,067 - ERROR: Training error: 'super' object has no attribute '__sklearn_tags__'
+2025-01-20 22:45:10,076 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 241, in train
+    y_pred = imbalance_pipeline.predict(X_test)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 653, in predict
+    with _raise_or_warn_if_not_fitted(self):
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 63, in _raise_or_warn_if_not_fitted
+    check_is_fitted(estimator)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1756, in check_is_fitted
+    if not _is_fitted(estimator, attributes, all_or_any):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1665, in _is_fitted
+    return estimator.__sklearn_is_fitted__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 1297, in __sklearn_is_fitted__
+    check_is_fitted(last_step)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1751, in check_is_fitted
+    tags = get_tags(estimator)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\_tags.py", line 405, in get_tags
+    sklearn_tags_provider[klass] = klass.__sklearn_tags__(estimator)  # type: ignore[attr-defined]
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 540, in __sklearn_tags__
+    tags = super().__sklearn_tags__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'super' object has no attribute '__sklearn_tags__'
+
+2025-01-20 22:45:10,076 - ERROR: Error in main training process: 'super' object has no attribute '__sklearn_tags__'
+2025-01-20 22:45:10,077 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 427, in main
+    performance_metrics = model.train('login_attempts_training_data.csv')
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 241, in train
+    y_pred = imbalance_pipeline.predict(X_test)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 653, in predict
+    with _raise_or_warn_if_not_fitted(self):
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 63, in _raise_or_warn_if_not_fitted
+    check_is_fitted(estimator)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1756, in check_is_fitted
+    if not _is_fitted(estimator, attributes, all_or_any):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1665, in _is_fitted
+    return estimator.__sklearn_is_fitted__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 1297, in __sklearn_is_fitted__
+    check_is_fitted(last_step)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1751, in check_is_fitted
+    tags = get_tags(estimator)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\_tags.py", line 405, in get_tags
+    sklearn_tags_provider[klass] = klass.__sklearn_tags__(estimator)  # type: ignore[attr-defined]
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 540, in __sklearn_tags__
+    tags = super().__sklearn_tags__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'super' object has no attribute '__sklearn_tags__'
+
+2025-01-20 22:45:29,380 - INFO: Loading training data...
+2025-01-20 22:45:29,546 - INFO: Preprocessing data...
+2025-01-20 22:45:29,558 - INFO: Numeric columns: ['timestamp', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score', 'login_success']
+2025-01-20 22:45:29,559 - INFO: Categorical columns: ['user_id', 'device_type', 'browser', 'location', 'ip_address']
+2025-01-20 22:45:29,809 - INFO: Selected features: ['timestamp', 'hour_of_day', 'day_of_week', 'month', 'is_weekend', 'is_business_hours', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'login_pattern_risk', 'login_frequency_zscore', 'user_id_encoded', 'device_type_encoded', 'browser_encoded', 'location_encoded', 'ip_address_encoded', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score']
+2025-01-20 22:45:30,029 - INFO: Training model...
+2025-01-20 22:45:32,495 - ERROR: Training error: 'super' object has no attribute '__sklearn_tags__'
+2025-01-20 22:45:32,500 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 241, in train
+    y_pred = imbalance_pipeline.predict(X_test)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 653, in predict
+    with _raise_or_warn_if_not_fitted(self):
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 63, in _raise_or_warn_if_not_fitted
+    check_is_fitted(estimator)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1756, in check_is_fitted
+    if not _is_fitted(estimator, attributes, all_or_any):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1665, in _is_fitted
+    return estimator.__sklearn_is_fitted__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 1297, in __sklearn_is_fitted__
+    check_is_fitted(last_step)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1751, in check_is_fitted
+    tags = get_tags(estimator)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\_tags.py", line 405, in get_tags
+    sklearn_tags_provider[klass] = klass.__sklearn_tags__(estimator)  # type: ignore[attr-defined]
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 540, in __sklearn_tags__
+    tags = super().__sklearn_tags__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'super' object has no attribute '__sklearn_tags__'
+
+2025-01-20 22:45:32,500 - ERROR: Error in main training process: 'super' object has no attribute '__sklearn_tags__'
+2025-01-20 22:45:32,504 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 427, in main
+    performance_metrics = model.train('login_attempts_training_data.csv')
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 241, in train
+    y_pred = imbalance_pipeline.predict(X_test)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 653, in predict
+    with _raise_or_warn_if_not_fitted(self):
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 63, in _raise_or_warn_if_not_fitted
+    check_is_fitted(estimator)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1756, in check_is_fitted
+    if not _is_fitted(estimator, attributes, all_or_any):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1665, in _is_fitted
+    return estimator.__sklearn_is_fitted__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 1297, in __sklearn_is_fitted__
+    check_is_fitted(last_step)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1751, in check_is_fitted
+    tags = get_tags(estimator)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\_tags.py", line 405, in get_tags
+    sklearn_tags_provider[klass] = klass.__sklearn_tags__(estimator)  # type: ignore[attr-defined]
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 540, in __sklearn_tags__
+    tags = super().__sklearn_tags__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'super' object has no attribute '__sklearn_tags__'
+
+2025-01-20 22:46:37,549 - INFO: Loading training data...
+2025-01-20 22:46:37,748 - INFO: Numeric columns: ['timestamp', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score', 'login_success']
+2025-01-20 22:46:37,748 - INFO: Categorical columns: ['user_id', 'device_type', 'browser', 'location', 'ip_address']
+2025-01-20 22:46:38,053 - INFO: Selected features: ['timestamp', 'hour_of_day', 'day_of_week', 'month', 'is_weekend', 'is_business_hours', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'login_pattern_risk', 'login_frequency_zscore', 'user_id_encoded', 'device_type_encoded', 'browser_encoded', 'location_encoded', 'ip_address_encoded', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score']
+2025-01-20 22:46:38,267 - ERROR: Error in training process: 'is_fraud'
+2025-01-20 22:46:38,360 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3805, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'is_fraud'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 251, in train
+    y = df['is_fraud']  # Assuming this is the target column
+        ~~^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\frame.py", line 4102, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    raise KeyError(key) from err
+KeyError: 'is_fraud'
+
+2025-01-20 22:46:38,361 - ERROR: Error in main training process: 'is_fraud'
+2025-01-20 22:46:38,363 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3805, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'is_fraud'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 431, in main
+    performance_metrics = model.train('login_attempts_training_data.csv')
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 251, in train
+    y = df['is_fraud']  # Assuming this is the target column
+        ~~^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\frame.py", line 4102, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    raise KeyError(key) from err
+KeyError: 'is_fraud'
+
+2025-01-20 22:47:06,985 - INFO: Loading training data...
+2025-01-20 22:47:07,186 - INFO: Numeric columns: ['timestamp', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score', 'login_success']
+2025-01-20 22:47:07,187 - INFO: Categorical columns: ['user_id', 'device_type', 'browser', 'location', 'ip_address']
+2025-01-20 22:47:07,486 - INFO: Selected features: ['timestamp', 'hour_of_day', 'day_of_week', 'month', 'is_weekend', 'is_business_hours', 'device_entropy', 'browser_entropy', 'location_entropy', 'login_frequency', 'time_since_last_login', 'login_pattern_risk', 'login_frequency_zscore', 'user_id_encoded', 'device_type_encoded', 'browser_encoded', 'location_encoded', 'ip_address_encoded', 'location_risk', 'device_risk', 'browser_risk', 'time_risk', 'failed_attempt_risk', 'ip_risk_score']
+2025-01-20 22:47:07,732 - INFO: Training model...
+2025-01-20 22:47:10,262 - ERROR: Error in training process: 'super' object has no attribute '__sklearn_tags__'
+2025-01-20 22:47:10,268 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 266, in train
+    y_pred = imbalance_pipeline.predict(X_test)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 653, in predict
+    with _raise_or_warn_if_not_fitted(self):
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 63, in _raise_or_warn_if_not_fitted
+    check_is_fitted(estimator)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1756, in check_is_fitted
+    if not _is_fitted(estimator, attributes, all_or_any):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1665, in _is_fitted
+    return estimator.__sklearn_is_fitted__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 1297, in __sklearn_is_fitted__
+    check_is_fitted(last_step)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1751, in check_is_fitted
+    tags = get_tags(estimator)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\_tags.py", line 405, in get_tags
+    sklearn_tags_provider[klass] = klass.__sklearn_tags__(estimator)  # type: ignore[attr-defined]
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 540, in __sklearn_tags__
+    tags = super().__sklearn_tags__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'super' object has no attribute '__sklearn_tags__'
+
+2025-01-20 22:47:10,268 - ERROR: Error in main training process: 'super' object has no attribute '__sklearn_tags__'
+2025-01-20 22:47:10,271 - ERROR: Traceback (most recent call last):
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 431, in main
+    performance_metrics = model.train('login_attempts_training_data.csv')
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\OneDrive\Desktop\Mindalike_models\train_model.py", line 266, in train
+    y_pred = imbalance_pipeline.predict(X_test)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 653, in predict
+    with _raise_or_warn_if_not_fitted(self):
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 63, in _raise_or_warn_if_not_fitted
+    check_is_fitted(estimator)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1756, in check_is_fitted
+    if not _is_fitted(estimator, attributes, all_or_any):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1665, in _is_fitted
+    return estimator.__sklearn_is_fitted__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\imblearn\pipeline.py", line 1297, in __sklearn_is_fitted__
+    check_is_fitted(last_step)
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\validation.py", line 1751, in check_is_fitted
+    tags = get_tags(estimator)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\_tags.py", line 405, in get_tags
+    sklearn_tags_provider[klass] = klass.__sklearn_tags__(estimator)  # type: ignore[attr-defined]
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mdmur\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 540, in __sklearn_tags__
+    tags = super().__sklearn_tags__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'super' object has no attribute '__sklearn_tags__'
+

@@ -1,0 +1,159 @@
+2025-01-20 20:51:25,775 - INFO - Loading training data...
+2025-01-20 20:51:25,896 - INFO - Preprocessing data...
+2025-01-20 20:51:26,072 - INFO - Performing grid search...
+2025-01-20 20:53:27,412 - INFO - Loading training data...
+2025-01-20 20:53:27,526 - INFO - Preprocessing data...
+2025-01-20 20:53:27,674 - INFO - Performing grid search...
+2025-01-20 20:56:15,689 - INFO - Loading training data...
+2025-01-20 20:56:15,797 - INFO - Preprocessing data...
+2025-01-20 20:56:15,998 - INFO - Training model...
+2025-01-20 20:56:16,898 - INFO - Evaluating model...
+2025-01-20 20:56:16,936 - INFO - Feature Importance:
+2025-01-20 20:56:16,936 - INFO - composite_risk: 21.912025451660156
+2025-01-20 20:56:16,936 - INFO - location_device_risk: 10.213505744934082
+2025-01-20 20:56:16,936 - INFO - browser_time_risk: 8.600321769714355
+2025-01-20 20:56:16,936 - INFO - time_failed_attempt_risk: 6.865560531616211
+2025-01-20 20:56:16,936 - INFO - failed_attempt_risk: 6.107674598693848
+2025-01-20 20:56:16,936 - INFO - location_risk: 6.0312347412109375
+2025-01-20 20:56:16,936 - INFO - max_risk: 5.8410964012146
+2025-01-20 20:56:16,937 - INFO - browser_risk: 5.689387798309326
+2025-01-20 20:56:16,937 - INFO - is_business_hour: 5.640201568603516
+2025-01-20 20:56:16,937 - INFO - risk_std: 5.639211177825928
+2025-01-20 20:56:16,937 - INFO - time_risk: 5.613375186920166
+2025-01-20 20:56:16,937 - INFO - device_risk: 5.575201034545898
+2025-01-20 20:56:16,937 - INFO - location_freq: 5.356666564941406
+2025-01-20 20:56:16,937 - INFO - hour: 5.064338207244873
+2025-01-20 20:56:16,937 - INFO - location_encoded: 5.009714126586914
+2025-01-20 20:56:16,937 - INFO - is_late_night: 4.813939094543457
+2025-01-20 20:56:16,937 - INFO - device_type_freq: 4.746259689331055
+2025-01-20 20:56:16,937 - INFO - device_type_encoded: 4.630111217498779
+2025-01-20 20:56:16,937 - INFO - browser_freq: 4.244731903076172
+2025-01-20 20:56:16,937 - INFO - browser_encoded: 4.138625144958496
+2025-01-20 20:56:16,977 - INFO - Model saved to login_security_model.joblib.gz
+2025-01-20 21:00:49,809 - INFO - Loading training data...
+2025-01-20 21:00:49,942 - INFO - Preprocessing data...
+2025-01-20 21:01:14,459 - INFO - Training model...
+2025-01-20 21:01:18,575 - INFO - Optimal threshold: 0.3084
+2025-01-20 21:01:19,636 - INFO - Feature Importance:
+2025-01-20 21:01:19,636 - INFO - composite_risk: 31.377586364746094
+2025-01-20 21:01:19,636 - INFO - geometric_mean_risk: 16.047929763793945
+2025-01-20 21:01:19,636 - INFO - harmonic_mean_risk: 11.589531898498535
+2025-01-20 21:01:19,636 - INFO - high_risk_count: 9.087455749511719
+2025-01-20 21:01:19,636 - INFO - risk_range: 7.035373210906982
+2025-01-20 21:01:19,636 - INFO - location_device_risk: 6.853091716766357
+2025-01-20 21:01:19,636 - INFO - max_risk: 6.8214497566223145
+2025-01-20 21:01:19,636 - INFO - browser_time_risk: 6.807149887084961
+2025-01-20 21:01:19,636 - INFO - risk_std: 6.4910502433776855
+2025-01-20 21:01:19,636 - INFO - min_risk: 6.483980655670166
+2025-01-20 21:01:19,636 - INFO - is_late_night: 6.427158832550049
+2025-01-20 21:01:19,636 - INFO - evening_window: 6.318717002868652
+2025-01-20 21:01:19,636 - INFO - time_failed_attempt_risk: 6.313786506652832
+2025-01-20 21:01:19,636 - INFO - medium_risk_count: 6.2566237449646
+2025-01-20 21:01:19,641 - INFO - failed_attempt_risk: 6.216822624206543
+2025-01-20 21:01:19,641 - INFO - location_risk: 6.176924705505371
+2025-01-20 21:01:19,641 - INFO - time_risk: 6.115574359893799
+2025-01-20 21:01:19,641 - INFO - device_risk: 6.1080241203308105
+2025-01-20 21:01:19,641 - INFO - is_business_hour: 5.995800018310547
+2025-01-20 21:01:19,641 - INFO - afternoon_window: 5.945682048797607
+2025-01-20 21:01:19,641 - INFO - browser_risk: 5.875952243804932
+2025-01-20 21:01:19,641 - INFO - location_freq: 5.864465713500977
+2025-01-20 21:01:19,641 - INFO - browser_freq_norm: 5.8462018966674805
+2025-01-20 21:01:19,641 - INFO - location_encoded: 5.831684589385986
+2025-01-20 21:01:19,641 - INFO - location_freq_norm: 5.822854042053223
+2025-01-20 21:01:19,641 - INFO - location_hour_entropy: 5.676671504974365
+2025-01-20 21:01:19,641 - INFO - hour: 5.559103488922119
+2025-01-20 21:01:19,641 - INFO - morning_window: 5.527044773101807
+2025-01-20 21:01:19,641 - INFO - location_risk_std: 5.441854000091553
+2025-01-20 21:01:19,641 - INFO - browser_freq: 5.344392776489258
+2025-01-20 21:01:19,641 - INFO - browser_hour_entropy: 5.331532001495361
+2025-01-20 21:01:19,641 - INFO - location_avg_risk: 5.313663005828857
+2025-01-20 21:01:19,641 - INFO - browser_avg_risk: 5.276519775390625
+2025-01-20 21:01:19,641 - INFO - device_type_encoded: 5.215116500854492
+2025-01-20 21:01:19,641 - INFO - browser_encoded: 5.176968097686768
+2025-01-20 21:01:19,641 - INFO - device_type_avg_risk: 5.152191162109375
+2025-01-20 21:01:19,641 - INFO - device_type_freq: 4.684053897857666
+2025-01-20 21:01:19,641 - INFO - browser_risk_std: 4.634853839874268
+2025-01-20 21:01:19,641 - INFO - device_type_risk_std: 4.3313798904418945
+2025-01-20 21:01:19,641 - INFO - device_type_freq_norm: 3.4164557456970215
+2025-01-20 21:01:19,641 - INFO - device_type_hour_entropy: 3.16042160987854
+2025-01-20 21:01:19,907 - INFO - Model saved to login_security_model.joblib.gz
+2025-01-20 21:06:27,552 - INFO - Loading training data...
+2025-01-20 21:06:27,665 - INFO - Preprocessing data...
+2025-01-20 21:06:55,117 - INFO - Performing grid search for hyperparameter tuning...
+2025-01-20 21:06:55,121 - ERROR - Error during training: 'super' object has no attribute '__sklearn_tags__'
+2025-01-20 21:16:47,701 - INFO - Loading training data...
+2025-01-20 21:16:47,818 - INFO - Preprocessing data...
+2025-01-20 21:17:13,556 - INFO - Performing grid search for hyperparameter tuning...
+2025-01-20 21:17:13,563 - ERROR - Error during training: 'super' object has no attribute '__sklearn_tags__'
+2025-01-20 21:18:19,162 - INFO - Loading training data...
+2025-01-20 21:18:19,264 - INFO - Preprocessing data...
+2025-01-20 21:18:45,056 - INFO - Performing randomized search for hyperparameter tuning...
+2025-01-20 21:18:45,058 - ERROR - Error during training: 'super' object has no attribute '__sklearn_tags__'
+2025-01-20 21:26:55,227 - INFO - Loading training data...
+2025-01-20 21:26:55,377 - INFO - Preprocessing data...
+2025-01-20 21:27:24,971 - INFO - Performing randomized search for hyperparameter tuning...
+2025-01-20 21:27:24,979 - ERROR - Error during training: 'super' object has no attribute '__sklearn_tags__'
+2025-01-20 21:28:25,630 - INFO - Loading training data...
+2025-01-20 21:28:25,746 - INFO - Preprocessing data...
+2025-01-20 21:28:55,277 - INFO - Performing XGBoost cross-validation...
+2025-01-20 21:29:06,203 - INFO - Best num_boost_round: 242
+2025-01-20 21:29:06,203 - INFO - Training model...
+2025-01-20 21:29:10,553 - INFO - Optimal threshold: 0.3325
+2025-01-20 21:29:12,777 - INFO - Feature Importance:
+2025-01-20 21:29:12,777 - INFO - composite_risk: 33.84567642211914
+2025-01-20 21:29:12,777 - INFO - geometric_mean_risk: 16.971616744995117
+2025-01-20 21:29:12,777 - INFO - harmonic_mean_risk: 12.676032066345215
+2025-01-20 21:29:12,777 - INFO - high_risk_count: 8.659810066223145
+2025-01-20 21:29:12,777 - INFO - is_late_night: 7.502832412719727
+2025-01-20 21:29:12,777 - INFO - risk_range: 7.485431671142578
+2025-01-20 21:29:12,777 - INFO - location_device_risk: 7.416477203369141
+2025-01-20 21:29:12,777 - INFO - browser_time_risk: 7.305907249450684
+2025-01-20 21:29:12,777 - INFO - max_risk: 6.960137367248535
+2025-01-20 21:29:12,777 - INFO - risk_std: 6.5471367835998535
+2025-01-20 21:29:12,777 - INFO - time_failed_attempt_risk: 6.461633205413818
+2025-01-20 21:29:12,777 - INFO - location_risk: 6.407372951507568
+2025-01-20 21:29:12,777 - INFO - device_risk: 6.356683731079102
+2025-01-20 21:29:12,777 - INFO - medium_risk_count: 6.249002933502197
+2025-01-20 21:29:12,777 - INFO - min_risk: 6.147321701049805
+2025-01-20 21:29:12,777 - INFO - time_risk: 6.063650608062744
+2025-01-20 21:29:12,777 - INFO - browser_risk: 6.01230525970459
+2025-01-20 21:29:12,777 - INFO - failed_attempt_risk: 5.918328285217285
+2025-01-20 21:29:12,777 - INFO - hour: 5.911885738372803
+2025-01-20 21:29:12,777 - INFO - location_encoded: 5.8768181800842285
+2025-01-20 21:29:12,778 - INFO - evening_window: 5.840389728546143
+2025-01-20 21:29:12,778 - INFO - is_business_hour: 5.708714485168457
+2025-01-20 21:29:12,778 - INFO - device_type_hour_entropy: 5.6723551750183105
+2025-01-20 21:29:12,778 - INFO - device_type_freq_norm: 5.662320613861084
+2025-01-20 21:29:12,779 - INFO - location_risk_std: 5.6097588539123535
+2025-01-20 21:29:12,779 - INFO - location_freq: 5.605377674102783
+2025-01-20 21:29:12,779 - INFO - location_freq_norm: 5.586063861846924
+2025-01-20 21:29:12,779 - INFO - browser_risk_std: 5.570778846740723
+2025-01-20 21:29:12,779 - INFO - location_avg_risk: 5.565827369689941
+2025-01-20 21:29:12,779 - INFO - browser_avg_risk: 5.532848834991455
+2025-01-20 21:29:12,779 - INFO - device_type_avg_risk: 5.443964958190918
+2025-01-20 21:29:12,779 - INFO - browser_hour_entropy: 5.4391984939575195
+2025-01-20 21:29:12,779 - INFO - location_hour_entropy: 5.401182174682617
+2025-01-20 21:29:12,779 - INFO - device_type_freq: 5.353139877319336
+2025-01-20 21:29:12,779 - INFO - morning_window: 5.352778434753418
+2025-01-20 21:29:12,779 - INFO - device_type_risk_std: 5.345221042633057
+2025-01-20 21:29:12,780 - INFO - device_type_encoded: 5.063228130340576
+2025-01-20 21:29:12,780 - INFO - browser_freq: 5.021816730499268
+2025-01-20 21:29:12,780 - INFO - browser_encoded: 4.988921165466309
+2025-01-20 21:29:12,780 - INFO - afternoon_window: 4.503799915313721
+2025-01-20 21:29:12,780 - INFO - browser_freq_norm: 4.4407429695129395
+2025-01-20 21:29:13,026 - INFO - Model saved to login_security_model.joblib.gz
+2025-01-20 21:32:33,682 - INFO - Loading training data...
+2025-01-20 21:32:33,802 - INFO - Preprocessing data...
+2025-01-20 21:33:00,104 - ERROR - Error during training: 'user_id'
+2025-01-20 21:35:11,545 - INFO - Loading training data...
+2025-01-20 21:35:11,646 - INFO - Preprocessing data...
+2025-01-20 21:35:37,033 - INFO - Applying SMOTE to balance classes...
+2025-01-20 21:35:38,213 - INFO - Performing XGBoost cross-validation...
+2025-01-20 21:39:28,930 - INFO - Loading training data...
+2025-01-20 21:39:29,046 - INFO - Preprocessing data...
+2025-01-20 21:39:52,388 - INFO - Applying SMOTE to balance classes...
+2025-01-20 21:39:53,581 - INFO - Performing XGBoost cross-validation...
+2025-01-20 21:39:57,548 - INFO - Best num_boost_round: 88
+2025-01-20 21:39:57,548 - INFO - Training model...
+2025-01-20 21:39:58,691 - INFO - Optimal threshold: 0.4377
+2025-01-20 21:39:58,827 - INFO - Model saved to login_security_model.joblib.gz

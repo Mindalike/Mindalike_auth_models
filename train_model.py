@@ -1,255 +1,221 @@
 import pandas as pd
 import numpy as np
 import logging
-import traceback
-import gzip
-import joblib
 import json
 import os
-from datetime import datetime, timedelta
-
-# Advanced ML Libraries
-import xgboost as xgb
-from sklearn.model_selection import train_test_split, RandomizedSearchCV
+import traceback
+import joblib
+from datetime import datetime
+import warnings
+from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import (
     classification_report, 
-    confusion_matrix, 
-    roc_auc_score, 
+    roc_auc_score,
     precision_recall_curve, 
-    average_precision_score
+    average_precision_score,
+    f1_score,
+    accuracy_score,
+    precision_score,
+    recall_score
 )
-from sklearn.ensemble import RandomForestClassifier, VotingClassifier
-from sklearn.linear_model import LogisticRegression
+from scipy import stats
+import xgboost as xgb
+from imblearn.over_sampling import BorderlineSMOTE
 
-class LoginSecurityModel:
-    def __init__(self, sensitivity_level=0.5):
-        """
-        Initialize login security model with advanced configuration
-        """
-        self.sensitivity_level = sensitivity_level
-        self.model = None
-        self.scaler = StandardScaler()
-        self.label_encoders = {}
-        self.optimal_threshold = 0.5
-        self.feature_importances = {}
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s: %(message)s'
+)
+
+def preprocess_data(df, scaler=None, label_encoders=None):
+    """
+    Enhanced data preprocessing with advanced feature engineering
+    """
+    try:
+        df = df.copy()
         
-    def _extract_advanced_features(self, df):
-        """
-        Extract comprehensive and advanced features for login security
-        """
-        # Time-based features
-        df['hour_of_day'] = pd.to_datetime(df['timestamp'], unit='s').dt.hour
-        df['day_of_week'] = pd.to_datetime(df['timestamp'], unit='s').dt.dayofweek
+        # Convert timestamp to datetime
+        df['timestamp'] = pd.to_datetime(df['timestamp'], unit='s')
         
-        # IP-based risk features
-        df['ip_risk_score'] = self._calculate_ip_risk(df['ip_address'])
+        # Advanced time-based features
+        df['hour'] = df['timestamp'].dt.hour
+        df['day_of_week'] = df['timestamp'].dt.dayofweek
+        df['month'] = df['timestamp'].dt.month
+        df['is_weekend'] = df['day_of_week'].isin([5, 6]).astype(int)
+        df['is_business_hours'] = ((df['hour'] >= 9) & (df['hour'] <= 17)).astype(int)
+        df['is_late_night'] = ((df['hour'] >= 23) | (df['hour'] <= 4)).astype(int)
         
-        # Device and browser entropy
-        df['device_entropy'] = df.groupby('device_type')['user_id'].transform('count')
-        df['browser_entropy'] = df.groupby('browser')['user_id'].transform('count')
+        # User behavior features
+        df['user_activity_count'] = df.groupby('user_id')['timestamp'].transform('count')
+        df['user_success_rate'] = df.groupby('user_id')['login_success'].transform('mean')
         
         # Location-based features
-        df['location_risk_score'] = self._calculate_location_risk(df['location'])
+        df['location_success_rate'] = df.groupby('location')['login_success'].transform('mean')
+        df['location_activity_count'] = df.groupby('location')['timestamp'].transform('count')
         
-        # Temporal login patterns
-        df['login_frequency'] = df.groupby('user_id')['timestamp'].transform('count')
-        df['time_since_last_login'] = df.groupby('user_id')['timestamp'].transform(lambda x: x.max() - x.min())
+        # Device-based features
+        df['device_success_rate'] = df.groupby('device_type')['login_success'].transform('mean')
+        df['device_activity_count'] = df.groupby('device_type')['timestamp'].transform('count')
         
-        return df
-    
-    def _calculate_ip_risk(self, ip_addresses):
-        """
-        Calculate risk score based on IP characteristics
-        """
-        # Simple IP risk scoring (can be enhanced with IP reputation databases)
-        def ip_to_risk(ip):
-            # Example risk calculation logic
-            octets = ip.split('.')
-            risk = sum(int(octet) % 10 for octet in octets) / 40
-            return min(risk, 1.0)
+        # Browser-based features
+        df['browser_success_rate'] = df.groupby('browser')['login_success'].transform('mean')
+        df['browser_activity_count'] = df.groupby('browser')['timestamp'].transform('count')
         
-        return [ip_to_risk(ip) for ip in ip_addresses]
-    
-    def _calculate_location_risk(self, locations):
-        """
-        Calculate location risk based on historical patterns
-        """
-        # Simple location risk scoring
-        def location_risk(location):
-            # Example: Define high-risk locations
-            high_risk_locations = ['Unknown', 'Tor Exit Node', 'VPN']
-            return 1.0 if location in high_risk_locations else 0.2
-        
-        return [location_risk(loc) for loc in locations]
-    
-    def preprocess_data(self, df):
-        """
-        Advanced data preprocessing with feature engineering
-        """
-        # Add advanced features
-        df = self._extract_advanced_features(df)
-        
-        # Encode categorical features
-        categorical_columns = ['device_type', 'browser', 'location']
-        for col in categorical_columns:
-            le = LabelEncoder()
-            df[f'{col}_encoded'] = le.fit_transform(df[col].astype(str))
-            self.label_encoders[col] = le
-        
-        # Select and scale features
-        feature_columns = [
-            'timestamp', 'hour_of_day', 'day_of_week', 
-            'ip_risk_score', 'device_entropy', 'browser_entropy', 
-            'location_risk_score', 'login_frequency', 'time_since_last_login',
-            'device_type_encoded', 'browser_encoded', 'location_encoded'
-        ]
-        
-        X = df[feature_columns]
-        X_scaled = self.scaler.fit_transform(X)
-        
-        return X_scaled, feature_columns
-    
-    def _create_advanced_model(self):
-        """
-        Create an advanced model
-        """
-        # Base models
-        xgb_model = xgb.XGBClassifier(
-            use_label_encoder=False,
-            eval_metric='logloss',
-            n_estimators=100,
-            max_depth=6,
-            learning_rate=0.1
+        # Time window features
+        df['recent_failures'] = df.groupby('user_id')['login_success'].transform(
+            lambda x: (~x.rolling(window=3, min_periods=1).sum().astype(bool)).astype(int)
         )
         
-        rf_model = RandomForestClassifier(
-            n_estimators=100,
-            max_depth=10
-        )
+        # Interaction features
+        df['location_device_risk'] = df.groupby(['location', 'device_type'])['login_success'].transform('mean')
+        df['browser_time_risk'] = df.groupby(['browser', 'hour'])['login_success'].transform('mean')
         
-        return xgb_model  # Simplified to single model
-    
-    def train(self, training_data_path, test_size=0.2, random_state=42):
-        """
-        Advanced model training with comprehensive techniques
-        """
-        try:
-            # Load data
-            logging.info("Loading training data...")
-            df = pd.read_csv(training_data_path)
-            
-            # Preprocess data
-            logging.info("Preprocessing data...")
-            X, feature_columns = self.preprocess_data(df)
-            y = df['login_success']
-            
-            # Split data
-            X_train, X_test, y_train, y_test = train_test_split(
-                X, y, test_size=test_size, random_state=random_state, stratify=y
-            )
-            
-            # Create advanced model
-            logging.info("Creating advanced ensemble model...")
-            self.model = self._create_advanced_model()
-            
-            # Train model
-            logging.info("Training model...")
-            self.model.fit(X_train, y_train)
-            
-            # Predictions
-            y_pred_proba = self.model.predict_proba(X_test)[:, 1]
-            
-            # Find optimal threshold
-            self.optimal_threshold = self.find_optimal_threshold(y_test, y_pred_proba)
-            y_pred = (y_pred_proba >= self.optimal_threshold).astype(int)
-            
-            # Detailed performance metrics
-            print("\nModel Performance:")
-            print(classification_report(y_test, y_pred))
-            
-            print("\nConfusion Matrix:")
-            cm = confusion_matrix(y_test, y_pred)
-            print(cm)
-            
-            # Calculate advanced metrics
-            roc_auc = roc_auc_score(y_test, y_pred_proba)
-            avg_precision = average_precision_score(y_test, y_pred_proba)
-            
-            print(f"\nROC AUC Score: {roc_auc:.4f}")
-            print(f"Average Precision Score: {avg_precision:.4f}")
-            
-            # Feature importance analysis
-            if hasattr(self.model, 'feature_importances_'):
-                importances = self.model.feature_importances_
-                feature_importances = sorted(
-                    zip(feature_columns, importances), 
-                    key=lambda x: x[1], 
-                    reverse=True
-                )
-                
-                print("\nTop Feature Importances:")
-                for feature, importance in feature_importances[:10]:
-                    print(f"{feature}: {importance:.4f}")
-                
-                self.feature_importances = dict(feature_importances)
-            
-            # Save model
-            self.save_model()
-            
-            return self.model
+        # Handle categorical columns with advanced encoding
+        categorical_cols = df.select_dtypes(include=['object']).columns
+        if label_encoders is None:
+            label_encoders = {}
         
-        except Exception as e:
-            logging.error(f"Error during training: {str(e)}")
-            logging.error(traceback.format_exc())
-            raise
+        for col in categorical_cols:
+            if col not in ['timestamp']:
+                if col not in label_encoders:
+                    label_encoders[col] = LabelEncoder()
+                    df[col] = label_encoders[col].fit_transform(df[col].fillna('unknown'))
+                else:
+                    df[col] = label_encoders[col].transform(df[col].fillna('unknown'))
+        
+        # Select features for model
+        feature_cols = [col for col in df.columns if col not in ['timestamp', 'login_success']]
+        
+        # Handle missing values
+        for col in feature_cols:
+            if df[col].dtype in ['int64', 'float64']:
+                df[col] = df[col].fillna(df[col].mean())
+            else:
+                df[col] = df[col].fillna(-1)
+        
+        # Scale features
+        if scaler is None:
+            scaler = StandardScaler()
+            X = scaler.fit_transform(df[feature_cols])
+        else:
+            X = scaler.transform(df[feature_cols])
+        
+        return X, feature_cols, scaler, label_encoders
     
-    def find_optimal_threshold(self, y_true, y_pred_proba, beta=1.0):
-        """
-        Find optimal threshold using F-beta score
-        """
-        precisions, recalls, thresholds = precision_recall_curve(y_true, y_pred_proba)
-        f_scores = (1 + beta**2) * (precisions * recalls) / (beta**2 * precisions + recalls)
-        optimal_idx = np.argmax(f_scores)
-        return thresholds[optimal_idx]
-    
-    def save_model(self, filename='login_security_model.joblib.gz'):
-        """
-        Save model with advanced compression
-        """
-        try:
-            with gzip.open(filename, 'wb') as f:
-                joblib.dump({
-                    'model': self.model,
-                    'scaler': self.scaler,
-                    'label_encoders': self.label_encoders,
-                    'optimal_threshold': self.optimal_threshold,
-                    'feature_importances': self.feature_importances
-                }, f, compress=9)
-            logging.info(f"Model saved to {filename}")
-        except Exception as e:
-            logging.error(f"Error saving model: {str(e)}")
-    
-    def load_model(self, filename='login_security_model.joblib.gz'):
-        """
-        Load model with robust error handling
-        """
-        try:
-            with gzip.open(filename, 'rb') as f:
-                model_data = joblib.load(f)
-                self.model = model_data['model']
-                self.scaler = model_data['scaler']
-                self.label_encoders = model_data['label_encoders']
-                self.optimal_threshold = model_data.get('optimal_threshold', 0.5)
-                self.feature_importances = model_data.get('feature_importances', {})
-            logging.info(f"Model loaded from {filename}")
-        except Exception as e:
-            logging.error(f"Error loading model: {str(e)}")
-            raise
+    except Exception as e:
+        logging.error(f"Error in preprocessing: {str(e)}")
+        raise
 
-def main():
-    model = LoginSecurityModel()
-    model.train('login_attempts_training_data.csv')
+def train_model(data_path, test_size=0.2, random_state=42):
+    """
+    Train an enhanced login security model
+    """
+    try:
+        # Load data
+        logging.info("Loading data...")
+        df = pd.read_csv(data_path)
+        
+        # Preprocess data
+        logging.info("Preprocessing data...")
+        X, feature_cols, scaler, label_encoders = preprocess_data(df)
+        y = df['login_success'].values
+        
+        # Split data with stratification
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=test_size, random_state=random_state, stratify=y
+        )
+        
+        # Handle class imbalance with advanced SMOTE
+        logging.info("Applying SMOTE...")
+        smote = BorderlineSMOTE(
+            random_state=random_state,
+            k_neighbors=5,
+            m_neighbors=10,
+            kind='borderline-1'
+        )
+        X_train_balanced, y_train_balanced = smote.fit_resample(X_train, y_train)
+        
+        # Initialize model with optimized parameters
+        logging.info("Training model...")
+        model = xgb.XGBClassifier(
+            n_estimators=500,
+            max_depth=8,
+            learning_rate=0.05,
+            subsample=0.8,
+            colsample_bytree=0.8,
+            min_child_weight=3,
+            gamma=0.1,
+            reg_alpha=0.1,
+            reg_lambda=1,
+            scale_pos_weight=1,
+            random_state=random_state,
+            tree_method='hist',
+            enable_categorical=True
+        )
+        
+        # Train the model
+        model.fit(
+            X_train_balanced, 
+            y_train_balanced,
+            verbose=True
+        )
+        
+        # Make predictions
+        y_pred = model.predict(X_test)
+        y_pred_proba = model.predict_proba(X_test)[:, 1]
+        
+        # Calculate metrics
+        metrics = {
+            'accuracy': accuracy_score(y_test, y_pred),
+            'precision': precision_score(y_test, y_pred),
+            'recall': recall_score(y_test, y_pred),
+            'f1_score': f1_score(y_test, y_pred),
+            'roc_auc': roc_auc_score(y_test, y_pred_proba),
+            'avg_precision': average_precision_score(y_test, y_pred_proba),
+            'classification_report': classification_report(y_test, y_pred)
+        }
+        
+        # Log metrics
+        logging.info("\nModel Performance:")
+        for metric, value in metrics.items():
+            if isinstance(value, (int, float)):
+                logging.info(f"{metric}: {value:.4f}")
+        logging.info(f"\nClassification Report:\n{metrics['classification_report']}")
+        
+        # Feature importance analysis
+        feature_importance = pd.DataFrame({
+            'feature': feature_cols,
+            'importance': model.feature_importances_
+        })
+        feature_importance = feature_importance.sort_values('importance', ascending=False)
+        logging.info("\nTop 10 Most Important Features:")
+        logging.info(feature_importance.head(10))
+        
+        # Save artifacts
+        os.makedirs('model_artifacts', exist_ok=True)
+        joblib.dump(model, 'model_artifacts/model.joblib')
+        joblib.dump(scaler, 'model_artifacts/scaler.joblib')
+        joblib.dump(label_encoders, 'model_artifacts/label_encoders.joblib')
+        
+        with open('model_artifacts/feature_columns.json', 'w') as f:
+            json.dump(feature_cols, f)
+        
+        with open('model_artifacts/metrics.json', 'w') as f:
+            metrics_json = {k: v for k, v in metrics.items() if isinstance(v, (int, float))}
+            json.dump(metrics_json, f, indent=4)
+        
+        # Save feature importance
+        feature_importance.to_csv('model_artifacts/feature_importance.csv', index=False)
+        
+        return model, scaler, label_encoders, metrics
+    
+    except Exception as e:
+        logging.error(f"Error in model training: {str(e)}")
+        logging.error(traceback.format_exc())
+        raise
 
 if __name__ == "__main__":
-    main()
+    train_model('login_attempts_training_data.csv')

@@ -1,0 +1,48 @@
+{
+  "example_user": {
+    "usual_locations": [],
+    "usual_devices": [],
+    "usual_times": [],
+    "usual_browsers": [],
+    "failed_attempts": 0,
+    "total_attempts": 0,
+    "last_successful_login": null
+  },
+  "test_user_1": {
+    "usual_locations": [
+      "New York",
+      "London"
+    ],
+    "usual_devices": [
+      "desktop",
+      "mobile"
+    ],
+    "usual_times": [
+      22
+    ],
+    "usual_browsers": [
+      "Chrome",
+      "Safari"
+    ],
+    "failed_attempts": 0,
+    "total_attempts": 2,
+    "last_successful_login": 1737390776.982081
+  },
+  "test_user_2": {
+    "usual_locations": [
+      "Tokyo"
+    ],
+    "usual_devices": [
+      "desktop"
+    ],
+    "usual_times": [
+      22
+    ],
+    "usual_browsers": [
+      "Firefox"
+    ],
+    "failed_attempts": 1,
+    "total_attempts": 1,
+    "last_successful_login": null
+  }
+}
