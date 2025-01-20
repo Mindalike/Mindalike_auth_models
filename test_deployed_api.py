@@ -6,7 +6,7 @@ import time
 def test_login_security_api():
     """Test the deployed login security API with various scenarios"""
     
-    base_url = "http://localhost:8000"  # Testing local server
+    base_url = "https://mindalike-fraud-detection.onrender.com"  # Render deployment URL
     
     # First test if the API is accessible
     try:
