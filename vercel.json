@@ -5,6 +5,12 @@
       "use": "@vercel/python"
     }
   ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "main.py"
+    }
+  ],
   "build": {
     "env": {
       "PYTHON_VERSION": "3.12"
@@ -12,5 +18,6 @@
     "commands": {
       "build": "pip install -r requirements.txt"
     }
-  }
+  },
+  "public": true
 }
