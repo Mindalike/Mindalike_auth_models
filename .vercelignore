@@ -1,0 +1,13 @@
+.git
+.venv
+__pycache__
+node_modules
+*.log
+*.tmp
+*.env
+*.csv
+*.ipynb
+*.md
+*.txt
+tests/
+data/
