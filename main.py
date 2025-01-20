@@ -313,11 +313,15 @@ def update_user_patterns(attempt):
         debug_to_file(traceback.format_exc())
         raise
 
+import fastapi
+import sys
+
 @app.get("/", response_model=Dict[str, str])
 async def root():
     """
     Root endpoint providing basic API information
     """
+    debug_to_file("Root endpoint accessed")
     return {
         "title": "Advanced Login Security API",
         "version": "1.1.0",
@@ -326,7 +330,12 @@ async def root():
         "endpoints": [
             "/analyze_login (POST)",
             "/user_patterns/{user_id} (GET)"
-        ]
+        ],
+        "debug_info": {
+            "python_version": sys.version,
+            "fastapi_version": fastapi.__version__,
+            "current_time": datetime.now().isoformat()
+        }
     }
 
 @app.post("/analyze_login", status_code=status.HTTP_200_OK)
